@@ -88,55 +88,55 @@ export const botConfig = {
   embeds: {
     colors: {
       // Main brand colors.
-      primary: "#336699", 
-      secondary: "#2F3136", 
+      primary: "#B11226", 
+      secondary: "#0B0B0F", 
 
       // Standard status colors for success/error/warning/info messages.
-      success: "#57F287", 
+      success: "#D6A94A", 
       error: "#ED4245", 
       warning: "#FEE75C", 
-      info: "#3498DB", 
+      info: "#C0C0C0", 
 
       // Neutral utility colors.
       light: "#FFFFFF",
-      dark: "#202225",
-      gray: "#99AAB5",
+      dark: "#050505",
+      gray: "#8A8A8A",
 
       // Discord-style palette shortcuts.
       blurple: "#5865F2",
       green: "#57F287",
       yellow: "#FEE75C",
       fuchsia: "#EB459E",
-      red: "#ED4245",
+      red: "#B11226",
       black: "#000000",
 
       // Feature-specific colors.
       giveaway: {
-        active: "#57F287",
-        ended: "#ED4245",
+        active: "#D6A94A",
+        ended: "#B11226",
       },
       ticket: {
-        open: "#57F287",
-        claimed: "#FAA61A",
-        closed: "#ED4245",
-        pending: "#99AAB5",
+        open: "#D6A94A",
+        claimed: "#B11226",
+        closed: "#050505",
+        pending: "#8A8A8A",
       },
-      economy: "#F1C40F",
-      birthday: "#E91E63",
-      moderation: "#9B59B6",
+      economy: "#D6A94A",
+      birthday: "#B11226",
+      moderation: "#7A1E1E",
 
       // Ticket priority color mapping.
       priority: {
-        none: "#95A5A6",
-        low: "#3498db",
-        medium: "#2ecc71",
-        high: "#f1c40f",
-        urgent: "#e74c3c",
+        none: "#8A8A8A",
+        low: "#C0C0C0",
+        medium: "#D6A94A",
+        high: "#B11226",
+        urgent: "#FF2A2A",
       },
     },
     footer: {
       // Default footer text used in bot embeds.
-      text: "Titan Bot",
+      text: "The Divine Abyss • From Heaven’s Light, We Rule the Abyss.",
       // Footer icon URL (null = no icon).
       icon: null,
     },
@@ -289,10 +289,10 @@ export const botConfig = {
   // =========================
   verification: {
     // Message shown when posting the verification panel.
-    defaultMessage: "Click the button below to verify yourself and gain access to the server!",
+    defaultMessage: "Enter **The Divine Abyss** by verifying yourself below. Only the worthy may pass beyond the veil.",
 
     // Text on the verification button.
-    defaultButtonText: "Verify",
+    defaultButtonText: "Enter the Abyss",
 
     // Automatic verification behavior.
     autoVerify: {
@@ -359,11 +359,11 @@ export const botConfig = {
     // Welcome template posted when a user joins.
     // Placeholders: {user}, {server}, {memberCount}
     defaultWelcomeMessage:
-      "Welcome {user} to {server}! We now have {memberCount} members!",
+      "Welcome {user} to **The Divine Abyss** — where heaven’s light meets the darkness below. Stand with us, and rise beyond both.",
     // Goodbye template posted when a user leaves.
     // Placeholders: {user}, {memberCount}
     defaultGoodbyeMessage:
-      "{user} has left the server. We now have {memberCount} members.",
+      "{user} has departed from **The Divine Abyss**.",
     // Channel ID for welcome messages.
     defaultWelcomeChannel: null,
     // Channel ID for goodbye messages.
