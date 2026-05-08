@@ -19,7 +19,7 @@ const data = new SlashCommandBuilder()
       .setRequired(false)
   );
 
-for (let i = 1; i <= 25; i++) {
+for (let i = 1; i <= 15; i++) {
   data.addUserOption(option =>
     option
       .setName(`attendee_${i}`)
@@ -37,7 +37,7 @@ export default {
 
     const attendees = [];
 
-    for (let i = 1; i <= 25; i++) {
+    for (let i = 1; i <= 15; i++) {
       const user = interaction.options.getUser(`attendee_${i}`);
 
       if (user && !attendees.some(attendee => attendee.id === user.id)) {
