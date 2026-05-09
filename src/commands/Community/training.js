@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import { createEmbed } from '../../utils/embeds.js';
 import { InteractionHelper } from '../../utils/interactionHelper.js';
 import { logger } from '../../utils/logger.js';
@@ -7,6 +7,8 @@ export default {
   data: new SlashCommandBuilder()
     .setName('training')
     .setDescription('Post a Divine Abyss training report')
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
+.setDMPermission(false)
     .addUserOption(option =>
       option
         .setName('host')
