@@ -13,17 +13,17 @@ export default {
         .setDescription('Training host')
         .setRequired(true)
     )
-    .addUserOption(option =>
-      option
-        .setName('cohost')
-        .setDescription('Training co-host')
-        .setRequired(false)
-    )
     .addStringOption(option =>
       option
         .setName('attendees')
         .setDescription('Members who attended training')
         .setRequired(true)
+    )
+    .addUserOption(option =>
+      option
+        .setName('cohost')
+        .setDescription('Training co-host')
+        .setRequired(false)
     )
     .addStringOption(option =>
       option
@@ -34,8 +34,8 @@ export default {
 
   async execute(interaction) {
     const host = interaction.options.getUser('host');
-    const cohost = interaction.options.getUser('cohost');
     const attendees = interaction.options.getString('attendees');
+    const cohost = interaction.options.getUser('cohost');
     const notes = interaction.options.getString('notes') || 'No notes provided.';
 
     const embed = createEmbed({
