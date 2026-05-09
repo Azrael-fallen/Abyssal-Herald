@@ -3,58 +3,44 @@ import { createEmbed } from '../../utils/embeds.js';
 import { InteractionHelper } from '../../utils/interactionHelper.js';
 import { logger } from '../../utils/logger.js';
 
-const data = new SlashCommandBuilder()
-  .setName('training')
-  .setDescription('Post a Divine Abyss training attendance report')
-  .addUserOption(option =>
-    option
-      .setName('host')
-      .setDescription('The host of the training')
-      .setRequired(true)
-  )
-  .addUserOption(option =>
-    option
-      .setName('cohost')
-      .setDescription('The co-host of the training')
-      .setRequired(false)
-  );
-
-for (let i = 1; i <= 15; i++) {
-  data.addUserOption(option =>
-    option
-      .setName(`attendee_${i}`)
-      .setDescription(`Training attendee ${i}`)
-      .setRequired(false)
-  );
-}
-
 export default {
-  data,
+  data: new SlashCommandBuilder()
+    .setName('training')
+    .setDescription('Post a Divine Abyss training report')
+    .addUserOption(option =>
+      option
+        .setName('host')
+        .setDescription('Training host')
+        .setRequired(true)
+    )
+    .addUserOption(option =>
+      option
+        .setName('cohost')
+        .setDescription('Training co-host')
+        .setRequired(false)
+    )
+    .addStringOption(option =>
+      option
+        .setName('attendees')
+        .setDescription('Members who attended training')
+        .setRequired(true)
+    )
+    .addStringOption(option =>
+      option
+        .setName('notes')
+        .setDescription('Training notes')
+        .setRequired(false)
+    ),
 
   async execute(interaction) {
     const host = interaction.options.getUser('host');
     const cohost = interaction.options.getUser('cohost');
-
-    const attendees = [];
-
-    for (let i = 1; i <= 15; i++) {
-      const user = interaction.options.getUser(`attendee_${i}`);
-
-      if (user && !attendees.some(attendee => attendee.id === user.id)) {
-        attendees.push(user);
-      }
-    }
-
-    const attendeeList =
-      attendees.length > 0
-        ? attendees.map((user, index) => `**${index + 1}.** ${user}`).join('\n')
-        : 'No attendees listed.';
+    const attendees = interaction.options.getString('attendees');
+    const notes = interaction.options.getString('notes') || 'No notes provided.';
 
     const embed = createEmbed({
-      title: '⚔️ The Divine Abyss Training',
-      description:
-        '**Training has been completed.**\n\n' +
-        'Discipline was tested. Strength was sharpened. The Abyss remembers those who stood present.',
+      title: '⚔️ Divine Abyss Training Report',
+      description: 'A training session has been completed under The Divine Abyss.',
       color: 'primary',
       fields: [
         {
@@ -69,13 +55,13 @@ export default {
         },
         {
           name: 'Members Attended',
-          value: attendeeList,
+          value: attendees,
           inline: false
         },
         {
-          name: 'Attendance Count',
-          value: `${attendees.length}`,
-          inline: true
+          name: 'Notes',
+          value: notes,
+          inline: false
         }
       ],
       footer: {
@@ -84,15 +70,17 @@ export default {
     });
 
     await InteractionHelper.safeReply(interaction, {
-      embeds: [embed]
+      embeds: [embed],
+      allowedMentions: {
+        parse: ['users']
+      }
     });
 
-    logger.info('Training attendance command executed', {
+    logger.info('Training command executed', {
       userId: interaction.user.id,
       guildId: interaction.guildId,
       hostId: host.id,
-      cohostId: cohost?.id ?? null,
-      attendeeCount: attendees.length
+      cohostId: cohost?.id ?? null
     });
   }
 };
