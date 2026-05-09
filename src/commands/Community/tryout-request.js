@@ -12,6 +12,7 @@ export default {
         .setName('notes')
         .setDescription('Optional notes for staff')
         .setRequired(false)
+        .setDMPermission(false)            
     ),
 
   async execute(interaction) {
