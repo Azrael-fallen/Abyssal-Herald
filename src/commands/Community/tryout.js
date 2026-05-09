@@ -3,51 +3,37 @@ import { createEmbed } from '../../utils/embeds.js';
 import { InteractionHelper } from '../../utils/interactionHelper.js';
 import { logger } from '../../utils/logger.js';
 
-const data = new SlashCommandBuilder()
-  .setName('tryout')
-  .setDescription('Post a Divine Abyss tryout request report')
-  .addUserOption(option =>
-    option
-      .setName('host')
-      .setDescription('The tryout host')
-      .setRequired(true)
-  );
-
-for (let i = 1; i <= 24; i++) {
-  data.addUserOption(option =>
-    option
-      .setName(`member_${i}`)
-      .setDescription(`Member requesting tryout ${i}`)
-      .setRequired(false)
-  );
-}
-
 export default {
-  data,
+  data: new SlashCommandBuilder()
+    .setName('tryout')
+    .setDescription('Post a Divine Abyss tryout request')
+    .addUserOption(option =>
+      option
+        .setName('host')
+        .setDescription('Tryout host')
+        .setRequired(true)
+    )
+    .addStringOption(option =>
+      option
+        .setName('members')
+        .setDescription('Members requesting to try out')
+        .setRequired(true)
+    )
+    .addStringOption(option =>
+      option
+        .setName('notes')
+        .setDescription('Tryout notes')
+        .setRequired(false)
+    ),
 
   async execute(interaction) {
     const host = interaction.options.getUser('host');
-
-    const members = [];
-
-    for (let i = 1; i <= 24; i++) {
-      const user = interaction.options.getUser(`member_${i}`);
-
-      if (user && !members.some(member => member.id === user.id)) {
-        members.push(user);
-      }
-    }
-
-    const memberList =
-      members.length > 0
-        ? members.map((user, index) => `**${index + 1}.** ${user}`).join('\n')
-        : 'No members listed.';
+    const members = interaction.options.getString('members');
+    const notes = interaction.options.getString('notes') || 'No notes provided.';
 
     const embed = createEmbed({
-      title: '🕯️ The Divine Abyss Tryout',
-      description:
-        '**A tryout request has been opened.**\n\n' +
-        'Those who seek entry must stand before the Abyss and prove they are worthy.',
+      title: '🕯️ Divine Abyss Tryout Request',
+      description: 'A tryout request has been opened for The Divine Abyss.',
       color: 'primary',
       fields: [
         {
@@ -57,13 +43,13 @@ export default {
         },
         {
           name: 'Members Requesting Tryout',
-          value: memberList,
+          value: members,
           inline: false
         },
         {
-          name: 'Request Count',
-          value: `${members.length}`,
-          inline: true
+          name: 'Notes',
+          value: notes,
+          inline: false
         }
       ],
       footer: {
@@ -72,14 +58,16 @@ export default {
     });
 
     await InteractionHelper.safeReply(interaction, {
-      embeds: [embed]
+      embeds: [embed],
+      allowedMentions: {
+        parse: ['users']
+      }
     });
 
     logger.info('Tryout command executed', {
       userId: interaction.user.id,
       guildId: interaction.guildId,
-      hostId: host.id,
-      requestCount: members.length
+      hostId: host.id
     });
   }
 };
